@@ -8,4 +8,4 @@ router = routers.DefaultRouter()
 
 router.register(r"staffer", StafferViewSet, basename="staffer")
 
-urlpatterns = [path("api", include(router.urls))]
+urlpatterns = [path("api/", include(router.urls))]
