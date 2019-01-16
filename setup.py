@@ -24,6 +24,12 @@ setup(
     keywords="",
     packages=find_packages(exclude=["docs", "tests", "example"]),
     include_package_data=True,
-    install_requires=["slacker", "requests", "celery"],
+    install_requires=[
+        "slacker",
+        "requests",
+        "celery",
+        "tqdm",
+        "djangorestframework",
+    ],
     extras_require={"test": ["pytest"]},
 )
