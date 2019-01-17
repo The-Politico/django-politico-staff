@@ -2,7 +2,7 @@
 
 # django-politico-staff
 
-All the deets you'll ever need.
+Staff app. Syncs with Slack.
 
 ### Quickstart
 
@@ -18,12 +18,13 @@ All the deets you'll ever need.
   INSTALLED_APPS = [
       # ...
       'rest_framework',
+      'tokenservice',
       'staff',
   ]
 
   #########################
   # staff settings
-
+  # Token for a slack app with users:read & users:read.email permission scopes
   STAFF_SLACK_API_TOKEN = os.getenv("SLACK_API_TOKEN")
   ```
 
