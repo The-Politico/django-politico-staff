@@ -20,7 +20,11 @@ def get_slack_user(user, slack_users):
         return None
     else:
         for slack_user in slack_users:
-            if slack_user["profile"]["email"] == user.email:
+            if (
+                user.email
+                and slack_user.get("profile", {}).get("email", None)
+                == user.email
+            ):
                 return slack_user
         return None
 
