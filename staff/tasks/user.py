@@ -10,31 +10,31 @@ from staff.conf import settings
 from staff.models import Profile
 
 
-def get_slack_user(user, users):
+def get_slack_user(user, slack_users):
     """Return user profile from Slack."""
     if user.profile.slack_api_id:
-        for slack_user in users:
+        for slack_user in slack_users:
             if slack_user["id"] == user.profile.slack_api_id:
                 return slack_user
         return None
     else:
-        for slack_user in users:
+        for slack_user in slack_users:
             if slack_user["profile"]["email"] == user.email:
                 return slack_user
-            return None
+        return None
 
 
 @shared_task(acks_late=True)
 def sync_slack_users(pks):
     SLACK = Slacker(settings.SLACK_API_TOKEN)
-    users = SLACK.users.list().body["members"]
+    slack_users = SLACK.users.list().body["members"]
     for pk in pks:
         user = User.objects.get(pk=pk)
 
         if not user.email or user.email[-13:] != "@politico.com":
             continue
 
-        slack_user = get_slack_user(user, users)
+        slack_user = get_slack_user(user, slack_users)
 
         if not slack_user:
             continue
