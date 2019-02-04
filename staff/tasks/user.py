@@ -7,6 +7,7 @@ from django.core.files.base import ContentFile
 
 from slacker import Slacker
 from staff.conf import settings
+from staff.models import Profile
 
 
 def get_slack_user(user, users):
@@ -54,9 +55,13 @@ def sync_slack_users(pks):
         user.first_name = first_name
         user.last_name = last_name
 
-        profile = user.profile
-
-        profile.politico_title = slack_profile.get("title", "Staff writer")
+        profile, created = Profile.objects.update_or_create(
+            user=user,
+            defaults={
+                "slack_api_id": slack_profile["id"],
+                "politico_title": slack_profile.get("title", "Staff writer"),
+            },
+        )
 
         if slack_profile.get("image_192", False):
             r = requests.get(slack_profile.get("image_192"), stream=True)
@@ -66,5 +71,5 @@ def sync_slack_users(pks):
                 ContentFile(img),
                 save=True,
             )
-        profile.save()
+            profile.save()
         user.save()
