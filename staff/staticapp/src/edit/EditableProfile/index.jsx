@@ -48,7 +48,7 @@ class Profile extends React.Component {
         id,
         google_display_name: this.state.googleDisplayName,
         google_email: this.state.googleEmail,
-        politico_author_page: this.state.politico_author_page,
+        politico_author_page: this.state.politicoAuthorPage,
         twitter_handle: this.state.twitterHandle,
       }),
     })

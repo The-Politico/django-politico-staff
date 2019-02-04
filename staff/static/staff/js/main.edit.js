@@ -27605,7 +27605,7 @@ function (_React$Component) {
           id: id,
           google_display_name: _this.state.googleDisplayName,
           google_email: _this.state.googleEmail,
-          politico_author_page: _this.state.politico_author_page,
+          politico_author_page: _this.state.politicoAuthorPage,
           twitter_handle: _this.state.twitterHandle
         })
       }).then(function (response) {

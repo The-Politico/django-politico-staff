@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="django-politico-staff",
-    version="0.0.5",
+    version="0.0.6",
     description="",
     url="https://github.com/The-Politico/django-politico-staff",
     author="POLITICO interactive news",
