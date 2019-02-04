@@ -12,10 +12,11 @@ from staff.models import Profile
 
 def get_slack_user(user, slack_users):
     """Return user profile from Slack."""
-    if user.profile and user.profile.slack_api_id:
-        for slack_user in slack_users:
-            if slack_user["id"] == user.profile.slack_api_id:
-                return slack_user
+    if hasattr(user, "profile"):
+        if user.profile.slack_api_id:
+            for slack_user in slack_users:
+                if slack_user["id"] == user.profile.slack_api_id:
+                    return slack_user
         return None
     else:
         for slack_user in slack_users:
