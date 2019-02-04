@@ -64,7 +64,7 @@ def sync_slack_users(pks):
         profile, created = Profile.objects.update_or_create(
             user=user,
             defaults={
-                "slack_api_id": slack_profile["id"],
+                "slack_api_id": slack_user["id"],
                 "politico_title": slack_profile.get("title", "Staff writer"),
             },
         )
