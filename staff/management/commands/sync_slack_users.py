@@ -39,8 +39,8 @@ class Command(BaseCommand):
 
             user, created = User.objects.update_or_create(
                 username=email,
-                email=email,
                 defaults={
+                    "email": email,
                     "first_name": first_name,
                     "last_name": last_name,
                     "is_staff": True,
@@ -67,4 +67,4 @@ class Command(BaseCommand):
                     ContentFile(img),
                     save=True,
                 )
-            profile.save()
+                profile.save()

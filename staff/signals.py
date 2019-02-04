@@ -13,4 +13,5 @@ def auto_staff(sender, instance, created, **kwargs):
         if instance.email[-13:] == "@politico.com" and not instance.is_staff:
             instance.is_staff = True
             instance.save()
-            sync_slack_users.delay([instance.pk])
+            if instance.pk:
+                sync_slack_users.delay([instance.pk])

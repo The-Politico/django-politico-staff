@@ -12,7 +12,7 @@ from staff.models import Profile
 
 def get_slack_user(user, slack_users):
     """Return user profile from Slack."""
-    if user.profile.slack_api_id:
+    if user.profile and user.profile.slack_api_id:
         for slack_user in slack_users:
             if slack_user["id"] == user.profile.slack_api_id:
                 return slack_user
@@ -54,6 +54,7 @@ def sync_slack_users(pks):
 
         user.first_name = first_name
         user.last_name = last_name
+        user.save()
 
         profile, created = Profile.objects.update_or_create(
             user=user,
@@ -72,4 +73,3 @@ def sync_slack_users(pks):
                 save=True,
             )
             profile.save()
-        user.save()
