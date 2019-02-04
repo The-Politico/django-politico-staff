@@ -11,10 +11,16 @@ from staff.conf import settings
 
 def get_slack_user(user, users):
     """Return user profile from Slack."""
-    for slack_user in users:
-        if slack_user["id"] == user.profile.slack_api_id:
-            return slack_user
-    return None
+    if user.profile.slack_api_id:
+        for slack_user in users:
+            if slack_user["id"] == user.profile.slack_api_id:
+                return slack_user
+        return None
+    else:
+        for slack_user in users:
+            if slack_user["profile"]["email"] == user.email:
+                return slack_user
+            return None
 
 
 @shared_task(acks_late=True)
@@ -28,6 +34,9 @@ def sync_slack_users(pks):
             continue
 
         slack_user = get_slack_user(user, users)
+
+        if not slack_user:
+            continue
 
         slack_profile = slack_user["profile"]
 
