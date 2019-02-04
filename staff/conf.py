@@ -34,6 +34,16 @@ Settings.SLACK_API_TOKEN = getattr(
     project_settings, "STAFF_SLACK_API_TOKEN", None
 )
 
+Settings.SECRET_TOKEN = getattr(
+    project_settings, "STAFF_SECRET_TOKEN", "SECRET"
+)
+
+Settings.AUTH_DECORATOR = getattr(
+    project_settings,
+    "STAFF_AUTH_DECORATOR",
+    "django.contrib.admin.views.decorators.staff_member_required",
+)
+
 
 def default_user_image_upload_to(instance, filename):
     return "staff/{0}/{1}".format(

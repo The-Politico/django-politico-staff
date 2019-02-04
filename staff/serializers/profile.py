@@ -16,3 +16,15 @@ class ProfileSerializer(ModelSerializer):
             "google_display_name",
             "twitter_handle",
         )
+
+
+class EditableProfileSerializer(ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            "id",
+            "politico_author_page",
+            "google_email",
+            "google_display_name",
+            "twitter_handle",
+        )

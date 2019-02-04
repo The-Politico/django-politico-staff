@@ -1,0 +1,18 @@
+.component :global{
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 0px;
+
+  .col{
+    padding: 0;
+    padding-right: 30px;
+  }
+  .form-group label{
+    margin-top: 0px;
+    font-size: 1rem;
+  }
+  .alert{
+    width: 100%;
+    padding: 3px 5px;
+  }
+}

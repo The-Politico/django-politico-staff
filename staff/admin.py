@@ -10,7 +10,15 @@ from .celery import sync_slack_users
 class ProfileInlineAdmin(admin.StackedInline):
     model = Profile
     can_delete = False
-    verbose_name_plural = "profile"
+    verbose_name_plural = "user profile"
+    fieldsets = (
+        (None, {"fields": ("user",)}),
+        ("Politico", {"fields": ("politico_title", "politico_author_page")}),
+        ("Slack", {"fields": ("slack_api_id", "slack_image")}),
+        ("Google", {"fields": ("google_email", "google_display_name")}),
+        ("Twitter", {"fields": ("twitter_handle",)}),
+    )
+    readonly_fields = ("slack_api_id", "slack_image")
 
 
 class UserAdmin(BaseUserAdmin):
@@ -23,18 +31,5 @@ class UserAdmin(BaseUserAdmin):
         self.message_user(request, "Synced with Slack")
 
 
-class ProfileAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {"fields": ("user",)}),
-        ("Politico", {"fields": ("politico_title", "politico_author_page")}),
-        ("Slack", {"fields": ("slack_api_id", "slack_image")}),
-        ("Google", {"fields": ("google_email", "google_display_name")}),
-        ("Twitter", {"fields": ("twitter_handle",)}),
-    )
-    readonly_fields = ("slack_api_id", "slack_image")
-
-
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-
-admin.site.register(Profile, ProfileAdmin)

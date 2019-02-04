@@ -1,6 +1,9 @@
-from staff.conf import settings
 from django.conf import settings as project_settings
+from django.contrib.auth.models import AnonymousUser
 from django.utils.decorators import method_decorator
+from rest_framework import authentication, exceptions
+
+from staff.conf import settings
 
 from .importers import import_class
 
@@ -16,6 +19,26 @@ def secure(view):
     """
     auth_decorator = import_class(settings.AUTH_DECORATOR)
     return (
-        view if project_settings.DEBUG
-        else method_decorator(auth_decorator, name='dispatch')(view)
+        view
+        if project_settings.DEBUG
+        else method_decorator(auth_decorator, name="dispatch")(view)
     )
+
+
+class TokenAuthentication(authentication.BaseAuthentication):
+    def authenticate(self, request):
+        # Don't enforce if DEBUG
+        # if settings.DEBUG:
+        #     return (AnonymousUser, None)
+        try:
+            # Per DRF token auth, token is prefixed by string
+            # literal "Token" plus whitespace, e.g., "Token <AUTHTOKEN>"
+            token = request.META.get("HTTP_AUTHORIZATION").split()[1]
+        except Exception:
+            raise exceptions.AuthenticationFailed(
+                "No token or incorrect token format"
+            )
+
+        if token == settings.SECRET_TOKEN:
+            return (AnonymousUser, None)
+        raise exceptions.AuthenticationFailed("Unauthorized")
